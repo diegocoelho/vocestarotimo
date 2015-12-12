@@ -46,7 +46,7 @@ if (window.DeviceMotionEvent != undefined) {
            vz = vz + az;
        }
        // desaceleração
-       decay = .8
+       decay = .9
        vx = vx * decay;
        vy = vy * decay;
        vz = vz * decay;
