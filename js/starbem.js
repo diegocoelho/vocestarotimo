@@ -9,7 +9,7 @@ var Estrelinhas = Parse.Object.extend("estrelinhas");
 var estrelinha = new Estrelinhas();
 
 // moving average:
-var smoothed = {x: 0, y : 0, z : 0}, smoothing = 4;
+var smoothed = {x: 0, y : 0, z : 0}, smoothing = 10;
 
 if (window.DeviceMotionEvent != undefined) {
    window.ondevicemotion = function(e) {
