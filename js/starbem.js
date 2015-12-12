@@ -80,6 +80,10 @@ function brilha(){
     }
 }
 
+function mudaSuavizacao(){
+    smoothing = document.getElementById("smoothfactor").value
+}
+
 
 function boundingBoxCheck(){
    if (x<0) { x = 0; vx = -vx; }
