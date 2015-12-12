@@ -13,7 +13,7 @@ var smoothed = {x: 0, y : 0, z : 0}, smoothing = 10;
 
 if (window.DeviceMotionEvent != undefined) {
    window.ondevicemotion = function(e) {
-       current = {x : e.acceleration.x, y : e.acceleration.y, z = e.acceleration.z}
+       current = {x : e.acceleration.x, y : e.acceleration.y, z : e.acceleration.z}
        smoothed.x += (current.x - smoothed.x) / smoothing
        smoothed.y += (current.y - smoothed.y) / smoothing
        smoothed.z += (current.z - smoothed.z) / smoothing
