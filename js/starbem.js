@@ -5,9 +5,8 @@ var x = 0, y = 0, z = 0;
    ax = 0, ay = 0, az = 0;
 var STARted = false;
 var sphere = document.getElementById("sphere");
-var Estrelinhas = Parse.Object.extend("estrelinhas");
-var estrelinha = new Estrelinhas();
-
+var estrelinha = Parse.Object.extend("estrelinhas");
+var arrayEstrelas = []
 // moving average:
 var smoothed = {x: 0, y : 0, z : 0}, smoothing = 10;
 
@@ -64,8 +63,12 @@ if (window.DeviceMotionEvent != undefined) {
        sphere.style.top = y + "px";
        sphere.style.left = x + "px";
        if(STARted){
-          estrelinha.save({x_value: x, y_value:y, z_value : z, starid: 'estrelinha2'});
-       }
+           var estrela = new estrelinha();
+           estrela.set('starid', document.getElementById('starname').value);
+           estrela.set('x_value', x);
+           estrela.set('y_value', y);
+           estrela.set('z_value',z);
+           arrayEstrelas.push(estrela);       }
 
    }, 50);
 }
@@ -74,6 +77,7 @@ function brilha(){
     if(STARted){
         STARted = false;
         document.getElementById("startButton").innerHTML = "Start"
+        Parse.Object.saveAll(arrayEstrelas);
     } else {
         STARted = true;
         document.getElementById("startButton").innerHTML = "Stop"
