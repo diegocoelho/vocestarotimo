@@ -5,14 +5,21 @@ var x = 0, y = 0, z = 0;
    ax = 0, ay = 0, az = 0;
 var STARted = false;
 var sphere = document.getElementById("sphere");
- var Estrelinhas = Parse.Object.extend("estrelinhas");
- var estrelinha = new Estrelinhas();
+var Estrelinhas = Parse.Object.extend("estrelinhas");
+var estrelinha = new Estrelinhas();
+
+// moving average:
+var smoothed = {x: 0, y : 0, z : 0}, smoothing = 4;
 
 if (window.DeviceMotionEvent != undefined) {
    window.ondevicemotion = function(e) {
-       ax = e.acceleration.x;
-       ay = e.acceleration.y;
-       az = e.acceleration.z;
+       current = {x : e.acceleration.x, y : e.acceleration.y, z = e.acceleration.z}
+       smoothed.x += (current.x - smoothed.x) / smoothing
+       smoothed.y += (current.y - smoothed.y) / smoothing
+       smoothed.z += (current.z - smoothed.z) / smoothing
+       ax = smoothed.x;
+       ay = smoothed.y;
+       az = smoothed.z;
 
        //e.acceleration
        document.getElementById("accelerationX").innerHTML = ax.toFixed(2);
