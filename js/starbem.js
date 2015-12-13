@@ -1,6 +1,4 @@
-var x = 0, y = 0, z = 0;
-   vx = 0, vy = 0, vz = 0,
-   ax = 0, ay = 0, az = 0;
+var alpha = beta = gamma = 0;
 var STARted = false;
 var sphere = document.getElementById("sphere");
 var estrelinha = Parse.Object.extend("estrelinhas");
@@ -10,15 +8,16 @@ var smoothed = {x: 0, y : 0, z : 0}, smoothing = 10;
 
 if (window.DeviceMotionEvent != undefined) {
    window.deviceorientation = function(e) {
-       document.getElementById("rotationAlpha").innerHTML = e.alpha.toFixed(2);
-       document.getElementById("rotationBeta").innerHTML = e.beta.toFixed(2);
-       document.getElementById("rotationGamma").innerHTML = e.gamma.toFixed(2);
+       alpha = e.alpha.toFixed(2);
+       beta = e.beta.toFixed(2);
+       gamma = e.gamma.toFixed(2);
+
+       document.getElementById("rotationAlpha").innerHTML = alpha;
+       document.getElementById("rotationBeta").innerHTML = beta;
+       document.getElementById("rotationGamma").innerHTML = gamma;
    }
 
    setInterval(function() {
-       alpha = document.getElementById("rotationAlpha").innerHTML.toFixed(2);
-       beta = document.getElementById("rotationBeta").innerHTML.toFixed(2);
-       gamma = document.getElementById("rotationGamma").innerHTML.toFixed(2);
        if(STARted) {
            var estrela = new estrelinha();
            estrela.set('starid', document.getElementById('starname').value);
