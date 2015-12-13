@@ -6,6 +6,14 @@ output: html_document
 ---
 
 ```{r}
+Sys.setenv(PARSE_APPLICATION_ID = "bck5MqFK8Xm5LK6TBuaSec2LRaVsz9Bff4cV55W2")
+Sys.setenv(PARSE_API_KEY = "BpdV0CtpaK5awBu3ADvr5gf5wo9h6xsJ0VLUSPTX")
+#Sys.setenv(PARSE_API_KEY = "1ZLSbeuSgyKRUv3F2GDybZ99Wzr4Ow4y9ZvGxOXI")
+```
+
+
+```{r}
+require(rparse)
 require(jsonlite)
 require(dplyr)
 require(reshape)
@@ -14,8 +22,99 @@ library(zoo)
 ```
 
 ```{r}
+q <- parse_query("Estrela", limit = 1000)
+q2 <- parse_query("Estrela", skip = 1000)
+q3 <- parse_query("Estrela", skip = 2000)
+q <- rbind(q, parse_query("Estrela", skip = 3000))
+q <- rbind(q, q2, q3)
+q$acceleration = q$acceleration * 10
+
+d <- melt(q[,c(1,2,3,5,7)])
+#d <- melt(q[,c(1,2,3,5,7)], id = c("starid", "acceleration"))
+d <- d %>% 
+  group_by(starid, variable) %>% 
+  mutate(index = 1:n()) %>% ungroup()
+
+d.n <- d %>% 
+  group_by(starid) %>% 
+  summarise(n = n()) %>% 
+  filter(n > 300)
+
+d <- d %>% 
+  filter(starid %in% d.n$starid) %>% 
+  group_by(starid, variable) %>% 
+  mutate(value_s=rollmean(value, k = 3, na.pad=TRUE, align="right"))
+
+toplot <- filter(d, !(starid %in% c("", "Teste1", "Teste2")))
+toplot <- filter(d, (starid %in% c("Deitadosafari")))
+#toplot <- d
+ggplot(data = toplot, 
+       aes(index, value_s, colour = variable)) + 
+  geom_line(size = 1.5) + 
+  scale_colour_manual(values = c("black", "red", "green", "blue")) + 
+  facet_grid(variable ~ starid)
+
+```
+
+================
+Estrelas que brilham, brilham, BRILHAM! 
+
+```{r}
+q <- parse_query("EstrelaQueBrilha", limit = 1000)
+q <- rbind(q, parse_query("EstrelaQueBrilha", skip = 1000))
+# q <- rbind(q, q2, q3)
+q$v = q$v * 1
+
+d <- melt(q[,c(3, 6, 7, 8, 9)])
+#d <- melt(q[,c(1,2,3,5,7)], id = c("starid", "acceleration"))
+d <- d %>% 
+  group_by(starid, variable) %>% 
+  mutate(index = 1:n()) %>% ungroup()
+
+d.n <- d %>% 
+  group_by(starid) %>% 
+  summarise(n = n()) %>% 
+  filter(n > 300)
+
+d <- d %>% 
+  filter(starid %in% d.n$starid) %>% 
+  group_by(starid, variable) %>% 
+  mutate(value_s=rollmean(value, k = 3, na.pad=TRUE, align="right"))
+
+#toplot <- filter(d, !(starid %in% c("", "Teste1", "Teste2")))
+#toplot <- filter(d, (starid %in% c("Deitadosafari")))
+toplot <- d
+ggplot(data = toplot, 
+       aes(index, value, colour = variable)) + 
+  geom_line(size = 1.5) + 
+  facet_grid(variable ~ starid)
+
+```
+
+```{r}
+require("rgl")
+jeff = filter(q, starid == "Naza001")
+plot3d(jeff$x, jeff$y, jeff$z)
+
+```
+
+```{r}
+jeff = filter(q, starid %in% c("Naza001", "Jeff1", "Allan1", "Matheus1"))
+pca <- prcomp(data = jeff, ~ x + y + z)
+plot(pca)
+scores = as.data.frame(pca$x)
+
+# plot of observations
+ggplot(data = scores, aes(x = PC1, y = PC2, label = rownames(scores))) +
+  geom_point(colour = "tomato", alpha = 0.8, size = 4) 
+```
+
+
+==================
+
+```{r}
 estrelinhas <- fromJSON(txt = "data-example/estrelinhas.json")[['results']]
-options(digits.secs=3)
+options(digits.secs=2)
 estrelinhas$time <- as.POSIXct(
   strptime(
     gsub(pattern="T", 
@@ -35,12 +134,6 @@ helder2 <- data.frame(x = rollmean(helder[,5], roll_k),
 helder2$x <- helder2$x - helder2$x[1]
 helder2$y <- helder2$y - helder2$y[1]
 helder2$z <- helder2$z - helder2$z[1]
-
-
-# d <- filter(melt(helder[,5:7]), value < 100)
-# ggplot(data = d, aes(x = 1:NROW(d), y = value, colour = variable)) + 
-#   geom_line() + 
-#   facet_grid(. ~ variable)
 
 d <- filter(melt(helder2), value < 100)
 ggplot(data = d, aes(x = 1:NROW(d), y = value, colour = variable)) + 
