@@ -6,8 +6,8 @@ var arrayEstrelas = []
 // moving average:
 var smoothed = {x: 0, y : 0, z : 0}, smoothing = 10;
 
-if (window.DeviceMotionEvent != undefined) {
-   window.deviceorientation = function(e) {
+if (window.DeviceOrientationEvent != undefined) {
+   window.addEventListener('deviceorientation', function(e) {
        alpha = e.alpha.toFixed(2);
        beta = e.beta.toFixed(2);
        gamma = e.gamma.toFixed(2);
@@ -27,6 +27,8 @@ if (window.DeviceMotionEvent != undefined) {
            arrayEstrelas.push(estrela);
       }
    }, 50);
+} else {
+  console.log("Sem suporte");
 }
 
 function brilha(){
