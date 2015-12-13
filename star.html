@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-touch-fullscreen" content="yes"/>
+  <meta name="msapplication-tap-highlight" content="no"/>
+  <script src="assets/vendor/jquery/dist/jquery.js"></script>
+  <script src="assets/vendor/paper/paper-full.js"></script>
+  <script src="assets/vendor/paper/codemirror.js"></script>
+  <script src="assets/vendor/paper/scripts.js"></script>
+	<script src="//www.parsecdn.com/js/parse-1.6.7.min.js"></script>
+  <title>Paper.js — Path Simplification</title>
+	<style media="screen">
+		body,
+		html {
+      width: 99%;
+      height: 98%;
+			background-color: #34495e;
+		}
+    .paperscript {
+      height: 100%;
+      height: 100%;
+    }
+	</style>
+</head>
+<body>
+		<div id="papercanvas" class="paperscript">
+			<script type="text/paperscript" canvas="canvas-1">
+				Parse.initialize("bck5MqFK8Xm5LK6TBuaSec2LRaVsz9Bff4cV55W2", "iONuVeJEeqF1RCoLXCXBciFxntpUk1k7AFKfshEo");
+				var Estrelinhas = Parse.Object.extend("EstrelaQueBrilha");
+				var query = new Parse.Query(Estrelinhas);
+				query.equalTo("starid", "Naza001");
+        query.ascending("t");
+				query.limit(1000);
+				query.find({
+				  success: function(results) {
+						console.log("Success!");
+						var path;
+						var points = [];
+						var pointsR = [];
+            var maxX = 1;
+            var maxY = 1;
+            var canvasWidth = document.getElementById("papercanvas").offsetWidth;
+            var canvasHeight = document.getElementById("papercanvas").offsetHeight;
+				    for (var i = 0; i < results.length; i++) {
+				      var object = results[i];
+              var x = object.get('t');
+              var y = object.get('z');
+              if (x > maxX) { maxX = x; }
+              if (y > maxY) { maxY = y; }
+							var point = {
+								x: x,
+								y: y
+							}
+							points.push(point);
+				    }
+            var constantineX = canvasWidth/maxX;
+            var constantineY = canvasHeight/maxY;
+            for (var j = 0; j < points.length; j++) {
+              var point = points[j];
+              var newPoint = {
+                x: point.x * constantineX,
+                y: canvasHeight*0.9 - point.y*constantineY
+              };
+              pointsR.push(newPoint);
+            }
+            console.log(pointsR);
+						path = new Path({
+							segments: pointsR,
+							strokeColor: '#f39c12',
+							fullySelected: false
+						});
+						path = new Path({
+							segments: pointsR,
+							strokeColor: '#f39c12',
+							fullySelected: false
+						});
+						path.simplify(10);
+						// path = new Path({
+						// 	segments: [points[0]],
+						// 	strokeColor: '#f39c12',
+						// 	fullySelected: false
+						// });
+						// var i = 1;
+						// var timer = setInterval(function() {
+						// 	console.log(points[i]);
+						// 	path.add(points[i]);
+						// 	if (i < points.length-1) {
+						// 		i++;
+						// 	} else {
+						// 		clearInterval(timer);
+						// 	}
+						// 	path.simplify(10);
+						// }, 1000);
+				  },
+				  error: function(error) {
+						console.log("Erro!");
+				  }
+				});
+				var path;
+
+				function onMouseDown(event) {
+					path = new Path({
+						segments: [event.point],
+						strokeColor: '#8e44ad',
+						fullySelected: false
+					});
+          console.log(event.point);
+				}
+				function onMouseDrag(event) {
+					path.add(event.point);
+          console.log(event.point);
+				}
+				function onMouseUp(event) {
+					path.simplify(1);
+				}
+				</script>
+			<div class="canvas">
+				<canvas resize="true" id="canvas-1" style="width: 100%"></canvas>
+			</div>
+		</div>
+  </body>
+</html>
