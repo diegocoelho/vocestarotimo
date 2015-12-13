@@ -1,4 +1,4 @@
-Parse.initialize("bck5MqFK8Xm5LK6TBuaSec2LRaVsz9Bff4cV55W2", "iONuVeJEeqF1RCoLXCXBciFxntpUk1k7AFKfshEo");
+
 
 var x = 0, y = 0, z = 0;
    vx = 0, vy = 0, vz = 0,
@@ -12,7 +12,7 @@ var estrelinha = new Estrelinhas();
 var smoothed = {x: 0, y : 0, z : 0}, smoothing = 10;
 
 if (window.DeviceMotionEvent != undefined) {
-   window.ondevicemotion = function(e) {
+   window.deviceorientation = function(e) {
        current = {x : e.acceleration.x, y : e.acceleration.y, z = e.acceleration.z}
        smoothed.x += (current.x - smoothed.x) / smoothing
        smoothed.y += (current.y - smoothed.y) / smoothing
