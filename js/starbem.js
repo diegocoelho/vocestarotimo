@@ -1,4 +1,4 @@
-var alpha = beta = gamma = 0;
+var alpha = 0, beta = 0, gamma = 0;
 var STARted = false;
 var sphere = document.getElementById("sphere");
 var estrelinha = Parse.Object.extend("estrelinhas");
