@@ -1,32 +1,31 @@
+Parse.initialize("bck5MqFK8Xm5LK6TBuaSec2LRaVsz9Bff4cV55W2", "iONuVeJEeqF1RCoLXCXBciFxntpUk1k7AFKfshEo");
+
 var alpha = 0, beta = 0, gamma = 0;
     total_a = 0; // total acceleration.
 var STARted = false;
 var sphere = document.getElementById("sphere");
-var estrelinha = Parse.Object.extend("estrelinhas");
+var Estrela = Parse.Object.extend("Estrela");
+var arrayEstrelas = [];
 
 if (window.DeviceOrientationEvent != undefined) {
    window.addEventListener('deviceorientation', function(e) {
-      console.log(e);
-       alpha = e.alpha == null ? null : e.alpha.toFixed(2); //alpha é null em laptops
-       beta = e.beta.toFixed(2);
-       gamma = e.gamma.toFixed(2);
+       alpha = e.alpha;; //alpha é null em laptops
+       beta = e.beta;
+       gamma = e.gamma;
 
-
-       document.getElementById("alpha").innerHTML = alpha;
-       document.getElementById("beta").innerHTML = beta;
-       document.getElementById("gamma").innerHTML = gamma;
-       document.getElementById("gamma").innerHTML = gamma;
-
+       document.getElementById("alpha").innerHTML = (alpha == null ? "null" : e.alpha.toFixed(2));
+       document.getElementById("beta").innerHTML = beta.toFixed(2);
+       document.getElementById("gamma").innerHTML = gamma.toFixed(2);
    });
 
    setInterval(function() {
      if(STARted) {
-       var estrela = new estrelinha();
+       var estrela = new Estrela();
        estrela.set('starid', document.getElementById('starname').value);
-       estrela.set('alpha_value', alpha);
-       estrela.set('beta_value', beta);
-       estrela.set('gamma_value', gamma);
-       estrela.set('acc_value', total_a);
+       estrela.set('alpha', alpha);
+       estrela.set('beta', beta);
+       estrela.set('gamma', gamma);
+       estrela.set('acceleration', total_a);
        arrayEstrelas.push(estrela);
      }
    }, 50);
@@ -46,7 +45,20 @@ function brilha(){
     if(STARted){
         STARted = false;
         document.getElementById("startButton").innerHTML = "Start"
-        Parse.Object.saveAll(arrayEstrelas);
+        Parse.Object.saveAll(arrayEstrelas, {
+            success: function(objs) {
+              if(arrayEstrelas.length > 0){
+                document.getElementById("status").innerHTML = "Salvamos objetos: " + arrayEstrelas.length;
+                arrayEstrelas = [];
+              }else{
+                document.getElementById("status").innerHTML = "Nada para salvar" + arrayEstrelas;
+              }
+            },
+            error: function(error) {
+              document.getElementById("status").innerHTML = error;
+            }
+        });
+
     } else {
         STARted = true;
         document.getElementById("startButton").innerHTML = "Stop"
