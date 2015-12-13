@@ -16,9 +16,9 @@ if (window.DeviceMotionEvent != undefined) {
    }
 
    setInterval(function() {
-       alpha = e.alpha.toFixed(2);
-       beta = e.beta.toFixed(2);
-       gamma = e.gamma.toFixed(2);
+       alpha = document.getElementById("rotationAlpha").innerHTML.toFixed(2);
+       beta = document.getElementById("rotationBeta").innerHTML.toFixed(2);
+       gamma = document.getElementById("rotationGamma").innerHTML.toFixed(2);
        if(STARted) {
            var estrela = new estrelinha();
            estrela.set('starid', document.getElementById('starname').value);
