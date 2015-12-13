@@ -2,20 +2,18 @@ var alpha = 0, beta = 0, gamma = 0;
 var STARted = false;
 var sphere = document.getElementById("sphere");
 var estrelinha = Parse.Object.extend("estrelinhas");
-var arrayEstrelas = []
-// moving average:
-var smoothed = {x: 0, y : 0, z : 0}, smoothing = 10;
 
 if (window.DeviceOrientationEvent != undefined) {
    window.addEventListener('deviceorientation', function(e) {
-       alpha = e.alpha.toFixed(2);
+      console.log(e);
+       alpha = e.alpha == null ? null : e.alpha.toFixed(2); //alpha é null em laptops
        beta = e.beta.toFixed(2);
        gamma = e.gamma.toFixed(2);
 
-       document.getElementById("rotationAlpha").innerHTML = alpha;
-       document.getElementById("rotationBeta").innerHTML = beta;
-       document.getElementById("rotationGamma").innerHTML = gamma;
-   }
+       document.getElementById("alpha").innerHTML = alpha;
+       document.getElementById("beta").innerHTML = beta;
+       document.getElementById("gamma").innerHTML = gamma;
+   });
 
    setInterval(function() {
        if(STARted) {

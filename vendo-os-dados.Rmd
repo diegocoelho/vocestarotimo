@@ -1,0 +1,55 @@
+---
+title: "Vendo os dados"
+author: "Nazareno Andrade e João Arthur B. Monteiro"
+date: "12 de dezembro de 2015"
+output: html_document
+---
+
+```{r}
+require(jsonlite)
+require(dplyr)
+require(reshape)
+require(ggplot2)
+library(zoo)
+```
+
+```{r}
+estrelinhas <- fromJSON(txt = "data-example/estrelinhas.json")[['results']]
+options(digits.secs=3)
+estrelinhas$time <- as.POSIXct(
+  strptime(
+    gsub(pattern="T", 
+         replacement=" ", 
+         gsub(pattern="Z",replacement="",estrelinhas$createdAt)), format="%Y-%m-%d %H:%M:%OS"))
+```
+
+
+```{r}
+helder <- filter(estrelinhas, starid == "Jeff1")
+
+roll_k = 80
+helder2 <- data.frame(x = rollmean(helder[,5], roll_k), 
+                      y = rollmean(helder[,6], roll_k), 
+                      z = rollmean(helder[,7], roll_k))
+
+helder2$x <- helder2$x - helder2$x[1]
+helder2$y <- helder2$y - helder2$y[1]
+helder2$z <- helder2$z - helder2$z[1]
+
+
+# d <- filter(melt(helder[,5:7]), value < 100)
+# ggplot(data = d, aes(x = 1:NROW(d), y = value, colour = variable)) + 
+#   geom_line() + 
+#   facet_grid(. ~ variable)
+
+d <- filter(melt(helder2), value < 100)
+ggplot(data = d, aes(x = 1:NROW(d), y = value, colour = variable)) + 
+  geom_line() + 
+  facet_grid(. ~ variable)
+
+require("rgl")
+plot3d(helder2$x, helder2$y, helder2$z)
+lines3d(helder2$x, helder2$y, helder2$z,col=2,lwd=2)
+       
+```
+
