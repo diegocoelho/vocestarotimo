@@ -1,0 +1,17 @@
+@charset "UTF-8";
+html,
+body {
+  background-color: #395168;
+  color: #fff;
+}
+.wrapper {
+  margin-top: 40px;
+}
+.go-btn {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f39c12;
+  font-size: 2.5em;
+}
