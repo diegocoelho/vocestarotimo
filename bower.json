@@ -1,0 +1,17 @@
+{
+  "name": "Você Star Ótimo",
+  "version": "0.0.1",
+  "homepage": "https://github.com/diegocoelho/vocestarotimo",
+  "authors": [],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "test",
+    "tests",
+    "assets/vendor"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}
