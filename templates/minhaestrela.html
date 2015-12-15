@@ -1,0 +1,67 @@
+<div class="paperscript">
+	<script type="text/paperscript" canvas="canvas-1">
+		Parse.initialize("bck5MqFK8Xm5LK6TBuaSec2LRaVsz9Bff4cV55W2", "iONuVeJEeqF1RCoLXCXBciFxntpUk1k7AFKfshEo");
+		var Estrelinhas = Parse.Object.extend("EstrelaQueBrilha");
+		var query = new Parse.Query(Estrelinhas);
+		query.equalTo("starid", "Deitadosafari");
+		query.limit(1000);
+		query.find({
+		  success: function(results) {
+				console.log("Success!");
+				var path;
+				var points = [];
+		    for (var i = 0; i < results.length; i++) {
+		      var object = results[i];
+					var point = {
+						x: object.get('x'),
+						y: object.get('y')
+					}
+					points.push(point);
+		    }
+				path = new Path({
+					segments: points,
+					strokeColor: '#8e44ad',
+					fullySelected: false
+				});
+				path.simplify(10);
+				path = new Path({
+					segments: [points[0]],
+					strokeColor: '#f39c12',
+					fullySelected: false
+				});
+				var i = 1;
+				var timer = setInterval(function() {
+					console.log(points[i]);
+					path.add(points[i]);
+					if (i < points.length-1) {
+						i++;
+					} else {
+						clearInterval(timer);
+					}
+					path.simplify(10);
+				}, 1000);
+		  },
+		  error: function(error) {
+				console.log("Erro!");
+		  }
+		});
+		var path;
+
+		function onMouseDown(event) {
+			path = new Path({
+				segments: [event.point],
+				strokeColor: '#8e44ad',
+				fullySelected: false
+			});
+		}
+		function onMouseDrag(event) {
+			path.add(event.point);
+		}
+		function onMouseUp(event) {
+			path.simplify(1);
+		}
+		</script>
+	<div class="canvas">
+		<canvas resize="true" id="canvas-1" style="width: 100%"></canvas>
+	</div>
+</div>

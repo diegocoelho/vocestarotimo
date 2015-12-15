@@ -1,0 +1,29 @@
+@charset "UTF-8";
+html,
+body {
+	background-color: #34495e;
+	color: #fff;
+}
+body {
+	margin-top: 50px;
+}
+.titulo {
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.btn-go-wrapper {
+	margin-top: 100px;
+}
+.btn-rounded {
+	width: 160px;
+	height: 160px;
+	border: none;
+	border-radius: 50%;
+	font-size: 2.5em;
+}
+.btn-go {
+	background-color: #f39c12;
+}
+.paperscript {
+	border: solid 1px red;
+}

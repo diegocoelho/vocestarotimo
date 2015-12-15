@@ -1,0 +1,14 @@
+<input type="text" id="starname" ng-model="starname" class="form-control input-lg" placeholder="Dê nome a sua estrelinha">
+
+<ul class="list-unstyled">
+  <li>acceleration: - <span id="acceleration"></span>g</li>
+  <li>rotation alpha: - <span id="alpha"></span>degree</li>
+  <li>rotation beta: - <span id="beta"></span>degree</li>
+  <li>rotation gamma: - <span id="gamma"></span>degree</li>
+</ul>
+
+<div class="btn-go-wrapper text-center">
+  <p><button type="button" id="startButton" name="go" class="btn-rounded btn-go" ng-click="letsgo()" ng-disabled="starname == ''">{{btnText}}</button></p>
+  <p><a href="#/minhaestrela" class="btn btn-block btn-warning">Ver minha estrelinha</a></p>
+</div>
+<p id="status"></p>
