@@ -1,43 +1,31 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-   <title>Accelerometer Javascript Test</title>
-   <meta name="viewport" content="width=device-width,user-scalable=yes" />
-   <meta charset="utf-8">
-   <style>
-       body {
-           font-family: helvetica, arial, sans serif;
-       }
-       #sphere {
-           position: absolute;
-           width: 20px;
-           height: 20px;
-           border-radius: 20px;
-           -webkit-radius: 20px;
-           background-color: blue;
-       }
-   </style>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Você Star Ótimo</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+	<link rel="stylesheet" href="css/style.css" media="screen">
 </head>
-
 <body>
-<div id="content">
-   <h1>Accelerometer Javascript Test</h1>
-   <div id="sphere"></div>
-   <ul>
-       <li>acceleration: - <span id="acceleration"></span>g</li>
-       <li>rotation alpha: - <span id="alpha"></span>degree</li>
-       <li>rotation beta: - <span id="beta"></span>degree</li>
-       <li>rotation gamma: - <span id="gamma"></span>degree</li>
-   </ul>
-   <form>
-     Nomeie sua estrelinha: <input id= "starname" type = "text" value = ""> <br> <br>
-     <p id="startButton"onclick="brilha()">Start</p>
-   </form>
-   <br>
-   <p id="status"></p>
-   <br><br>
-</div>
- <script src="//www.parsecdn.com/js/parse-1.6.7.min.js"></script>
-<script src = "js/starbem.js" ></script>
+
+	<div class="wrapper container">
+		<p><input id="starname" type="text" name="starid" value="" placeholder="Nomeie sua estrelinha" class="form-control"></p>
+		<ul class="list-unstyled">
+			<li>acceleration: <span id="acceleration">g</span></li>
+			<li>alpha: <span id="alpha">d</span></li>
+			<li>beta: <span id="beta">d</span></li>
+			<li>gamma: <span id="gamma">d</span></li>
+		</ul>
+		<p class="text-center">
+			<button type="button" id="startButton" name="startButton" class="go-btn" onclick="brilha()">Start</button>
+		</p>
+		<p id="status"></p>
+	</div>
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script type="text/javascript" src="//www.parsecdn.com/js/parse-1.6.7.min.js"></script>
+	<script type="text/javascript" src="js/starbem.js"></script>
 </body>
 </html>

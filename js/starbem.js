@@ -17,8 +17,8 @@ if (window.DeviceOrientationEvent) {
     gamma = e.gamma;
 
     document.getElementById("alpha").innerHTML = (alpha === null ? "null" : e.alpha.toFixed(2));
-    document.getElementById("beta").innerHTML = beta.toFixed(2);
-    document.getElementById("gamma").innerHTML = gamma.toFixed(2);
+    document.getElementById("beta").innerHTML = (beta === null ? "null" : e.beta.toFixed(2));
+    document.getElementById("gamma").innerHTML = (gamma === null ? "null" : e.gamma.toFixed(2));
   });
 
   setInterval(function () {
@@ -41,14 +41,14 @@ if (window.DeviceMotionEvent) {
   window.ondevicemotion = function(e) {
     total_a = Math.sqrt(Math.pow(e.acceleration.x, 2) + Math.pow(e.acceleration.y,2) + Math.pow(e.acceleration.z,2));
     document.getElementById("acceleration").innerHTML = total_a.toFixed(1);
-  }
+  };
 }
 
 
 function brilha(){
   if(STARted){
     STARted = false;
-    document.getElementById("startButton").innerHTML = "Start"
+    document.getElementById("startButton").innerHTML = "Start";
     Parse.Object.saveAll(arrayEstrelas, {
       success: function(objs) {
         if(arrayEstrelas.length > 0){
@@ -65,6 +65,6 @@ function brilha(){
 
   } else {
     STARted = true;
-    document.getElementById("startButton").innerHTML = "Stop"
+    document.getElementById("startButton").innerHTML = "Stop";
   }
 }
